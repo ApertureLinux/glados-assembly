@@ -20,14 +20,6 @@ local_packages:
 	$(MAKE) assemble
 
 
-fetch:
-	@echo fetch
-
-	@cd "$(PACKAGES_DIR)"; 	\
-	git clean -df;			\
-	git reset --hard HEAD;	\
-	git pull;				\
-
 %/: 
 	@mkdir -p "$@"
 
@@ -41,7 +33,7 @@ $(PKGS): $(MIRROR_DIR)
 compile:
 	@echo compile: $(pkg)
 
-	@cd "$(dir)";						\
+	@cd "$(dir)" &&								\
 	PKGEXT=".pkg.tar.$(CMP)" makepkg -f --sign	\
 
 package:
