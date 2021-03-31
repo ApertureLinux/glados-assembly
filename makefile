@@ -2,6 +2,7 @@ GIT_URL = https://github.com/ApertureLinux/glados.git
 PACKAGES_DIR = packages/
 MIRROR_DIR = glados/
 DB_NAME = glados
+DB_FILE = glados.db.tar.xz
 CMP=zst
 
 #Due to the structure of our makefile, it is imperitive 
@@ -11,17 +12,17 @@ CMP=zst
 #script pull_new_packages||null compression_format
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 
-all: $(MIRROR_DIR)/$(DB_NAME).db.tar.$(CMP)
+all: $(MIRROR_DIR)/$(DB_FILE)
 
 clean:
 	rm -rf "$(PACKAGES_DIR)"
 	rm -rf "$(MIRROR_DIR)"
 
 
-$(MIRROR_DIR)/$(DB_NAME).db.tar.$(CMP): $(MIRROR_DIR) local_packages #aur_packages
+# $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_DIR) local_packages #aur_packages
 
 
-local_packages: $(PKGS)
+# local_packages: $(PKGS)
 
 
 %/: 
@@ -44,9 +45,9 @@ package:
 	cp "$(dir)/$(pkg)" "$(MIRROR_DIR)"
 
 
-$(MIRROR_DIR)/$(DB_NAME).db.tar.$(CMP): $(MIRROR_DIR) $(PKGS)
+$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_DIR) $(PKGS)
 	@cd "$(MIRROR_DIR)" && 				\
-	repo-add -s "$(DB_NAME).db.tar.xz" && 	\
-	repo-add --verify --sign -n "$(DB_NAME).db.tar.xz" *.$(CMP)
+	repo-add -s "$(DB_FILE)" && 	\
+	repo-add --verify --sign -n "$(DB_FILE)" *.$(CMP)
 
 .PHONY: $(SUBDIRS) assemble compile package link
