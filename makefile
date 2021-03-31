@@ -2,7 +2,8 @@ GIT_URL = https://github.com/ApertureLinux/glados.git
 PACKAGES_DIR = packages/
 MIRROR_DIR = glados/
 DB_NAME = glados
-PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages xz)
+CMP=xz
+PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 
 all: $(MIRROR_DIR)/$(DB_NAME).db.tar
 
@@ -41,7 +42,7 @@ compile:
 	@echo compile: $(pkg)
 
 	@cd "$(dir)";						\
-	PKGEXT=".pkg.tar.xz" makepkg -f 	\
+	PKGEXT=".pkg.tar.$(CMP)" makepkg -f --sign	\
 
 package:
 	@echo package: $(pkg)
