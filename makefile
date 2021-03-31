@@ -5,26 +5,22 @@ DB_NAME = glados
 CMP=xz
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 
-all: $(MIRROR_DIR)/$(DB_NAME).db.tar
+all: $(MIRROR_DIR)/$(DB_NAME).db.tar.$(CMP)
 
 clean:
 	rm -rf "$(PACKAGES_DIR)"
 	rm -rf "$(MIRROR_DIR)"
 
 
-$(MIRROR_DIR)/$(DB_NAME).db.tar: $(MIRROR_DIR) local_packages #aur_packages
+$(MIRROR_DIR)/$(DB_NAME).db.tar.$(CMP): $(MIRROR_DIR) local_packages #aur_packages
 
 
-local_packages:
-	$(MAKE) fetch
-	$(MAKE) assemble
+local_packages: $(PKGS)
 
 
 %/: 
 	@mkdir -p "$@"
 
-
-assemble: $(PKGS)
 
 $(PKGS): $(MIRROR_DIR)
 	@dir=$(@D) pkg=$(@F) $(MAKE) compile
