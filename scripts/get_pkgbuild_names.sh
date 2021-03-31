@@ -26,9 +26,9 @@ for dir in packages/*/ ; do
         cd "$dir"
         PATH= source PKGBUILD
         if [[ -n "$epoch" ]]; then
-            fullver=$epoch:${pkgname}-${pkgver}-${pkgrel}.pkg.tar.${CMP}
+            fullver=$epoch:${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.${CMP}
         else
-            fullver=${pkgname}-${pkgver}-${pkgrel}.pkg.tar.${CMP}
+            fullver=${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.${CMP}
         fi
         printf %s\\n "$dir$fullver"  
 

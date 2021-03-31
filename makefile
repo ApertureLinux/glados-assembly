@@ -4,14 +4,14 @@ MIRROR_DIR = glados/
 DB_NAME = glados
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages zst)
 
-all: $(DB_NAME).db.tar
+all: $(MIRROR_DIR)/$(DB_NAME).db.tar
 
 clean:
 	rm -rf "$(PACKAGES_DIR)"
 	rm -rf "$(MIRROR_DIR)"
 
 
-$(DB_NAME).db.tar: $(MIRROR_DIR) local_packages #aur_packages
+$(MIRROR_DIR)/$(DB_NAME).db.tar: $(MIRROR_DIR) local_packages #aur_packages
 
 
 local_packages:
