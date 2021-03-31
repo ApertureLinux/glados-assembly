@@ -2,7 +2,7 @@ GIT_URL = https://github.com/ApertureLinux/glados.git
 PACKAGES_DIR = packages/
 MIRROR_DIR = glados/
 DB_NAME = glados
-PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages zst)
+PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages xz)
 
 all: $(MIRROR_DIR)/$(DB_NAME).db.tar
 
@@ -34,15 +34,14 @@ fetch:
 assemble: $(PKGS)
 
 $(PKGS): $(MIRROR_DIR)
-	@echo $(@D) .  $(@DD) . $(@DF) . $(@F) . $(@FF)
 	@dir=$(@D) pkg=$(@F) $(MAKE) compile
 	@dir=$(@D) pkg=$(@F) $(MAKE) package
 
 compile:
 	@echo compile: $(pkg)
 
-	@cd "$(dir)";		\
-	makepkg -f --sign	\
+	@cd "$(dir)";						\
+	PKGEXT=".pkg.tar.xz" makepkg -f 	\
 
 package:
 	@echo package: $(pkg)
@@ -52,7 +51,7 @@ package:
 
 $(MIRROR_DIR)/$(DB_NAME).db.tar: $(MIRROR_DIR) $(PKGS)
 	@cd "$(MIRROR_DIR)" && 				\
-	repo-add -s "$(DB_NAME).db.tar" && 	\
-	repo-add --verify --sign -n "$(DB_NAME).db.tar" *.zst
+	repo-add -s "$(DB_NAME).db.tar.xz" && 	\
+	repo-add --verify --sign -n "$(DB_NAME).db.tar.xz" *.zst
 
 .PHONY: $(SUBDIRS) assemble compile package link
