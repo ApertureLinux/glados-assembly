@@ -13,9 +13,7 @@ fi
 if [ "$1" = "pull_new_packages" ]; then
     (
         cd packages
-        git clean -df
-        git reset --hard HEAD
-        git pull -f
+        git pull 
     ) &> /dev/null
 fi
 

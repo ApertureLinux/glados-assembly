@@ -29,11 +29,11 @@ clean:
 	@mkdir -p "$@"
 
 
-$(PKGS): $(MIRROR_DIR)
+$(PKGS):
 	@dir=$(@D) pkg=$(@F) $(MAKE) compile
 	@dir=$(@D) pkg=$(@F) $(MAKE) package
 
-compile:
+compile: $(MIRROR_DIR)
 	@echo compile: $(pkg)
 
 	@cd "$(dir)" &&								\
