@@ -11,8 +11,10 @@ CMP=zst
 #only enabled by passing in various arguments in the format:
 #script pull_new_packages||null compression_format
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
+MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: $(MIRROR_DIR)/$(DB_FILE)
+# all: $(MIRROR_DIR)/$(DB_FILE)
 
 clean:
 	rm -rf "$(PACKAGES_DIR)"
@@ -30,6 +32,7 @@ clean:
 
 
 $(PKGS):
+	@echo "1111111111111111111111"
 	@dir=$(@D) pkg=$(@F) $(MAKE) compile
 	@dir=$(@D) pkg=$(@F) $(MAKE) package
 
@@ -45,9 +48,15 @@ package:
 	cp "$(dir)/$(pkg)" "$(MIRROR_DIR)"
 
 
-$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_DIR) $(PKGS)
+# $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_DIR) $(PKGS)
+
+$(MIRROR_PKGS): $(PKGS)
+# 	@echo "$@"
+# 	@dir=$(@D) pkg=$(@F) $(MAKE) package
+
+$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS)
 	@cd "$(MIRROR_DIR)" && 				\
 	repo-add -s "$(DB_FILE)" && 	\
 	repo-add --verify --sign -n "$(DB_FILE)" *.$(CMP)
 
-.PHONY: $(SUBDIRS) assemble compile package link
+.PHONY: $(PKGS) assemble compile package link
