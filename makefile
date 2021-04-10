@@ -5,6 +5,8 @@ DB_NAME = glados
 DB_FILE = glados.db.tar.xz
 CMP=zst
 
+AUR_PACKAGES = yay aurutils
+
 #Due to the structure of our makefile, it is imperitive
 #that we pull the new packages before we get the pkgbuild names.
 #Because of this the following script has a few side effects that are
@@ -14,6 +16,7 @@ PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: $(MIRROR_DIR)/$(DB_FILE)
+	./scripts/aur.sh $(AUR_PACKAGES)
 
 $(PKGS):
 	@cd "$(@D)" &&				\
