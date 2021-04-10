@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
 
-user=aur
-group=mirror
 repo_location=`pwd`/glados
 repo_name=glados
 export AUR_PAGER=true
 
-# if [[ "$(id -ng)" != "$group" ]] || [[ "$(id -nu)" != "$user" ]] ; then
-#     sudo -u "$user" -g "$group" "$0" "$@"
-#     exit $?
-# fi
 
 if [[ "$1" == rm ]] ; then
     shift
@@ -36,6 +30,7 @@ fi
 # - use `--rebuild` to rebuild packages if needed (e.g. boost got upgraded)
 # - to get gpg keys automatically, in `~/.gnupg/gpg.conf`, add line:
 #   keyserver-options auto-key-retrieve
+test -f "$repo_location/${repo_name}.db.tar.xz" || repo-add "$repo_location/${repo_name}.db.tar.xz"
 aur sync				\
     --database "$repo_name"		\
     --root "$repo_location"		\

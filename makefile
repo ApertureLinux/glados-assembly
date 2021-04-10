@@ -15,14 +15,15 @@ AUR_PACKAGES = yay aurutils
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
-all: $(MIRROR_DIR)/$(DB_FILE)
-	$(MAKE) aur
-	$(MAKE) sync
+all: sync
+# all: $(MIRROR_DIR)/$(DB_FILE)
+# 	$(MAKE) aur
+# 	$(MAKE) sync
 
 aur:
-	./scripts/aur.sh $(AUR_PACKAGES)
+	@./scripts/aur.sh $(AUR_PACKAGES)
 
-sync:
+sync: $(MIRROR_DIR)/$(DB_FILE)
 	./scripts/sync.sh
 
 $(PKGS):
@@ -35,9 +36,11 @@ $(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) $(MIRROR_DIR)
 	@ln -f "$<" "$@"
 	# @cp --preserve=timestamps "$<" "$@"
 
-$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS)
-	@test ! -f "$@" && repo-add "$@" || true
-	@repo-add -R --verify "$@" $?
+$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
+	# @test ! -f "$@" && repo-add "$@"
+	# @test -f "$@" || repo-add "$@"
+	@repo-add -R "$@" $(filter-out aur, $?)
+	@rm -f $(MIRROR_DIR)/$(DB_FILE)*.sig
 
 %/:
 	@mkdir -p "$@"
@@ -52,4 +55,4 @@ cleanpkgs:
 cleanrepo:
 	@rm -rf "$(MIRROR_DIR)"
 
-.PHONY: all aur clean disclean cleanpkgs cleanrepo
+.PHONY: all aur sync clean disclean cleanpkgs cleanrepo
