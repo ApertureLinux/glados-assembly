@@ -16,6 +16,9 @@ PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
 MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: $(MIRROR_DIR)/$(DB_FILE)
+	$(MAKE) aur
+
+aur:
 	./scripts/aur.sh $(AUR_PACKAGES)
 
 $(PKGS):
@@ -45,4 +48,4 @@ cleanpkgs:
 cleanrepo:
 	@rm -rf "$(MIRROR_DIR)"
 
-.PHONY: all clean disclean cleanpkgs cleanrepo
+.PHONY: all aur clean disclean cleanpkgs cleanrepo
