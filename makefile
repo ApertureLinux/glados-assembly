@@ -17,7 +17,7 @@ all: $(MIRROR_DIR)/$(DB_FILE)
 
 $(PKGS):
 	@cd "$(@D)" &&				\
-	PKGEXT=".pkg.tar.$(CMP)" makepkg -f
+	PKGEXT=".pkg.tar.$(CMP)" makepkg -f --sign
 
 .SECONDEXPANSION:
 PERCENT := %
@@ -26,8 +26,8 @@ $(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) $(MIRROR_DIR)
 	# @cp --preserve=timestamps "$<" "$@"
 
 $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS)
-	@test ! -f "$@" && repo-add -s "$@" || true
-	@repo-add -R --verify --sign "$@" $?
+	@test ! -f "$@" && repo-add "$@" || true
+	@repo-add -R --verify "$@" $?
 
 %/:
 	@mkdir -p "$@"
