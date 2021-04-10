@@ -41,4 +41,5 @@ aur sync				\
     --root "$repo_location"		\
     --upgrades --noview --provides	\
     --force --noconfirm --rmdeps 	\
+    --sign				\
     "$@"
