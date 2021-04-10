@@ -17,9 +17,13 @@ MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: $(MIRROR_DIR)/$(DB_FILE)
 	$(MAKE) aur
+	$(MAKE) sync
 
 aur:
 	./scripts/aur.sh $(AUR_PACKAGES)
+
+sync:
+	./scripts/sync.sh
 
 $(PKGS):
 	@cd "$(@D)" &&				\
