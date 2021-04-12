@@ -15,7 +15,7 @@
 #  LAST            keep last X backups                          (0 = ignore)
 #  KEEP_TODAY      keep all backups made today                  (true/false)
 REMOTE_NAME="Aperture-Mirror"        # for ssh backups
-REMOTE_DIR="aperture"
+REMOTE_DIR="glados"
 LOCAL_DIR="./glados"
 RSYNC_COMMAND="/usr/bin/rsync"
 SSH_COMMAND="/usr/bin/ssh"
