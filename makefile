@@ -55,4 +55,4 @@ cleanpkgs:
 cleanrepo:
 	@rm -rf "$(MIRROR_DIR)"
 
-.PHONY: all aur sync clean disclean cleanpkgs cleanrepo
+.PHONY: all aur iso sync clean disclean cleanpkgs cleanrepo
