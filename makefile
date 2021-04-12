@@ -3,6 +3,7 @@ PACKAGES_DIR = packages/
 MIRROR_DIR = glados/
 DB_NAME = glados
 DB_FILE = glados.db.tar.xz
+ISO_DIR = iso/
 CMP=zst
 
 AUR_PACKAGES = yay aurutils
@@ -19,6 +20,11 @@ all: sync
 # all: $(MIRROR_DIR)/$(DB_FILE)
 # 	$(MAKE) aur
 # 	$(MAKE) sync
+
+iso:
+	cd "$(ISO_DIR)" && 								\
+	sudo mkarchiso -v -w work/ -o out/ . &&	\
+	sudo rm -rf "work"
 
 aur:
 	@./scripts/aur.sh $(AUR_PACKAGES)
@@ -47,12 +53,15 @@ $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
 
 clean: cleanpkgs
 
-disclean: clean cleanpkgs cleanrepo
+disclean: clean cleanpkgs cleanrepo cleaniso
 
 cleanpkgs:
 	@rm -rf "$(PACKAGES_DIR)"
 
 cleanrepo:
 	@rm -rf "$(MIRROR_DIR)"
+
+cleaniso:
+	@rm -rf "$(ISO_DIR)/out"
 
 .PHONY: all aur iso sync clean disclean cleanpkgs cleanrepo
