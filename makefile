@@ -40,6 +40,8 @@ $(PKGS):
 PERCENT := %
 $(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) $(MIRROR_DIR)
 	@ln -f "$<" "$@"
+	@ln -f "$<.sig" "$@.sig"
+
 	# @cp --preserve=timestamps "$<" "$@"
 
 $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
