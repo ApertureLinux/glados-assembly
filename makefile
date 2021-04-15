@@ -11,6 +11,10 @@ AUR_PKGS =  aurutils	\
 
 PERCENT := %
 
+PERCENT := %
+FILTER = $(foreach v,$(2),$(if $(findstring $(1),$(v)),$(v),))
+ADD_DEP = $(call FILTER,$(1),$(PKGS)): $(call FILTER,$(2),$(MIRROR_PKGS))
+
 #Due to the structure of our makefile, it is imperitive
 #that we pull the new packages before we get the pkgbuild names.
 #Because of this the following script has a few side effects that are
@@ -28,6 +32,21 @@ iso:
 	cd $(ISO_DIR) &&			\
 	sudo mkarchiso -v -w work/ -o out/ . &&	\
 	sudo rm -rf work
+
+iso:
+	cd "$(ISO_DIR)" && 			\
+	sudo mkarchiso -v -w work/ -o out/ . &&	\
+	sudo rm -rf "work"
+
+isoinit:
+	@mkdir iso
+	@cp -r /usr/share/archiso/configs/releng/* ./iso
+	@rm iso/pacman.conf
+	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
+	@cp ./resources/.zprofile ./iso/.zprofile
+	@cat ./resources/packages.x86_64 >> ./packages/packages.x86_64
+	@cd iso &&    										 \
+	git clone https://github.com/ApertureLinux/archinstall.git airootfs/root/archinstall-git
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
@@ -53,7 +72,7 @@ $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
 
 clean: cleanpkgs cleanworkiso
 
-distclean: clean cleanpkgs cleanrepo cleanworkiso cleaniso
+distclean: clean cleanpkgs cleanrepo cleaniso cleanworkiso
 
 cleanpkgs:
 	@rm -rf $(PACKAGES_DIR)

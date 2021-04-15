@@ -1,6 +1,5 @@
 /packages/
 /glados/
 /aurutils/
-/iso/out
-/iso/work
+/iso/
 /.deps
