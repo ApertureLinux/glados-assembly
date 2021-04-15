@@ -6,11 +6,10 @@ DB_FILE = glados.db.tar.xz
 ISO_DIR = iso/
 CMP=zst
 
-AUR_PACKAGES = yay aurutils
+AUR_PKGS =  aurutils	\
+	    yay
 
 PERCENT := %
-FILTER = $(foreach v,$(2),$(if $(findstring $(1),$(v)),$(v),))
-ADD_DEP = $(call FILTER,$(1),$(PKGS)): $(call FILTER,$(2),$(MIRROR_PKGS))
 
 #Due to the structure of our makefile, it is imperitive
 #that we pull the new packages before we get the pkgbuild names.
@@ -18,62 +17,51 @@ ADD_DEP = $(call FILTER,$(1),$(PKGS)): $(call FILTER,$(2),$(MIRROR_PKGS))
 #only enabled by passing in various arguments in the format:
 #script pull_new_packages||null compression_format
 PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
-MIRROR_PKGS = $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
+MIRROR_PKGS := $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: sync
-# all: $(MIRROR_DIR)/$(DB_FILE)
-# 	$(MAKE) aur
-# 	$(MAKE) sync
 
 iso:
-	cd "$(ISO_DIR)" && 								\
+	cd $(ISO_DIR) &&			\
 	sudo mkarchiso -v -w work/ -o out/ . &&	\
-	sudo rm -rf "work"
+	sudo rm -rf work
 
 aur:
-	@./scripts/aur.sh $(AUR_PACKAGES)
+	@scripts/aur.sh $(AUR_PKGS)
 
 sync: $(MIRROR_DIR)/$(DB_FILE)
-	./scripts/sync.sh
+	scripts/sync.sh
 
 $(PKGS):
-	echo make - $(call FILTER,aperture-hooks,$(PKGS))
-	@cd "$(@D)" &&				\
-	PKGEXT=".pkg.tar.$(CMP)" makepkg -f --sign
+	@cd $(@D) && PKGEXT=.pkg.tar.$(CMP) makepkg -f --sign
 
 .SECONDEXPANSION:
-$(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) $(MIRROR_DIR)
-	@ln -f "$<" "$@"
-	@ln -f "$<.sig" "$@.sig"
-	@repo-add -R "$(MIRROR_DIR)/$(DB_FILE)" "$@"
-	# @cp --preserve=timestamps "$<" "$@"
+$(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) | $(MIRROR_DIR)
+	@test ! -f $<.sig || ln -f $<.sig $@.sig
+	@ln -f $< $@
+	@repo-add -R $(MIRROR_DIR)/$(DB_FILE) $@
 
 $(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
-	# @test ! -f "$@" && repo-add "$@"
-	# @test -f "$@" || repo-add "$@"
-	@repo-add -R "$@" $(filter-out aur, $?)
+	@repo-add -R $@ $(filter-out aur, $?)
 	@rm -f $(MIRROR_DIR)/$(DB_FILE)*.sig
 
 %/:
-	@mkdir -p "$@"
+	@mkdir -p $@
 
-clean: cleanpkgs cleanisoworking
+clean: cleanpkgs cleanworkiso
 
-distclean: clean cleanpkgs cleanrepo cleaniso
+distclean: clean cleanpkgs cleanrepo cleanworkiso cleaniso
 
 cleanpkgs:
-	@rm -rf "$(PACKAGES_DIR)"
+	@rm -rf $(PACKAGES_DIR)
 
 cleanrepo:
-	@rm -rf "$(MIRROR_DIR)"
+	@rm -rf $(MIRROR_DIR)
 
-cleanisoworking:
-	@sudo rm -rf "$(ISO_DIR)/working"
+cleaniso: cleanworkiso
+	@rm -rf $(ISO_DIR)/out
 
-cleaniso: cleanisoworking
-	@rm -rf "$(ISO_DIR)/out"
+cleanworkiso:
+	@rm -rf $(ISO_DIR)/work
 
-# Dependencies
-$(call ADD_DEP,aperture-hooks,glados-keyring)
-
-.PHONY: all aur iso sync clean disclean cleanpkgs cleanrepo
+.PHONY: all aur iso sync clean distclean cleanpkgs cleanrepo cleaniso cleanworkiso

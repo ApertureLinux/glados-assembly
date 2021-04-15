@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-repo_location=`pwd`/glados
+repo_location=$(dirname "$(realpath "$0")")/../glados
 repo_name=glados
 export AUR_PAGER=true
 
@@ -18,14 +18,6 @@ fi
 
 # TODO add some way to rebuild packages with broken deps (like boost)
 
-# yay has a `--pgp-fetch` flag, aur sync does not
-# this is the workaround recomended by the man page (but automated)
-# if ! grep -q '^\s*keyserver-options' ~/.gnupg/gpg.conf 2>/dev/null; then
-#     # TODO doesn't actually work anymore
-#     mkdir -p ~/.gnupg/
-#     printf '\nkeyserver-options auto-key-retrieve\n' >> ~/.gnupg/gpg.conf
-# fi
-
 # Notes:
 # - use `--rebuild` to rebuild packages if needed (e.g. boost got upgraded)
 # - to get gpg keys automatically, in `~/.gnupg/gpg.conf`, add line:
@@ -35,6 +27,6 @@ aur sync				\
     --database "$repo_name"		\
     --root "$repo_location"		\
     --upgrades --noview --provides	\
-    --force --noconfirm --rmdeps 	\
+    --force --noconfirm --rmdeps	\
     --sign				\
     "$@"
