@@ -14,12 +14,15 @@ PERCENT := %
 #Due to the structure of our makefile, it is imperitive
 #that we pull the new packages before we get the pkgbuild names.
 #Because of this the following script has a few side effects that are
-#only enabled by passing in various arguments in the format:
-#script pull_new_packages||null compression_format
-PKGS := $(shell ./scripts/get_pkgbuild_names.sh pull_new_packages $(CMP))
+# - pulls new packages if needed
+# - generates dependency list in `.deps`
+# usage: script [pull_new_packages] compression_format
+PKGS := $(shell scripts/get_pkgbuild_names.sh pull_new_packages $(CMP) "$(MIRROR_DIR)" $(AUR_PKGS))
 MIRROR_PKGS := $(addprefix $(MIRROR_DIR), $(notdir $(PKGS)))
 
 all: sync
+
+include $(wildcard .deps)
 
 iso:
 	cd $(ISO_DIR) &&			\
