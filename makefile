@@ -25,11 +25,6 @@ all: sync
 include $(wildcard .deps)
 
 iso:
-	cd $(ISO_DIR) &&			\
-	sudo mkarchiso -v -w work/ -o out/ . &&	\
-	sudo rm -rf work
-
-iso:
 	cd "$(ISO_DIR)" && 			\
 	sudo mkarchiso -v -w work/ -o out/ . &&	\
 	sudo rm -rf "work"
@@ -40,7 +35,7 @@ isoinit:
 	@rm iso/pacman.conf
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
 	@cp ./resources/.zprofile ./iso/.zprofile
-	@cat ./resources/packages.x86_64 >> ./packages/packages.x86_64
+	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
 	@cd iso &&    										 \
 	git clone https://github.com/ApertureLinux/archinstall.git airootfs/root/archinstall-git
 
@@ -77,9 +72,9 @@ cleanrepo:
 	@rm -rf $(MIRROR_DIR)
 
 cleaniso: cleanworkiso
-	@rm -rf $(ISO_DIR)/out
+	@sudo rm -rf $(ISO_DIR)
 
 cleanworkiso:
-	@rm -rf $(ISO_DIR)/work
+	@sudo rm -rf $(ISO_DIR)/work
 
 .PHONY: all aur iso sync clean distclean cleanpkgs cleanrepo cleaniso cleanworkiso
