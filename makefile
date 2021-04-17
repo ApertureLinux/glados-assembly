@@ -31,7 +31,7 @@ iso:
 
 isoinit:
 	@mkdir iso
-	@cp -r /usr/share/archiso/configs/releng/* ./iso
+	@cp -r ./resources/archiso/configs/releng/* ./iso
 	@rm iso/pacman.conf
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
 	@rm iso/profiledef.sh
