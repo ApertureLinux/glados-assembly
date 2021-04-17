@@ -34,7 +34,9 @@ isoinit:
 	@cp -r /usr/share/archiso/configs/releng/* ./iso
 	@rm iso/pacman.conf
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
-	@cp ./resources/.zprofile ./iso/.zprofile
+	@rm iso/profiledef.sh
+	@cp ./resources/profiledef.sh ./iso/profiledef.sh
+	@cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
 	@cd iso &&    										 \
 	git clone https://github.com/ApertureLinux/archinstall.git airootfs/root/archinstall-git
