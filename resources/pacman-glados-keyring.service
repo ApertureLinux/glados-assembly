@@ -1,0 +1,12 @@
+[Unit]
+Description=Initializes the Glados pacman keyring
+After=pacman-init.service
+Requires=pacman-init.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=pacman-key --populate --updatedb glados

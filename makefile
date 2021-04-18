@@ -42,6 +42,8 @@ isoinit:
 	@cp ./resources/hostname iso/airootfs/etc/hostname
 	@rm iso/airootfs/etc/motd
 	@cp ./resources/motd iso/airootfs/etc/motd
+	@cp ./resources/pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/pacman-glados-keyring.service
+	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
 
 aur:
