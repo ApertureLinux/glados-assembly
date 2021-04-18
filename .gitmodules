@@ -1,0 +1,6 @@
+[submodule "repos/archiso"]
+	path = repos/archiso
+	url = https://github.com/archlinux/archiso.git
+[submodule "repos/archinstall"]
+	path = repos/archinstall
+	url = https://github.com/ApertureLinux/archinstall.git
