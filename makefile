@@ -38,6 +38,10 @@ isoinit:
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
 	@cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
+	@rm iso/airootfs/etc/hostname
+	@cp ./resources/hostname iso/airootfs/etc/hostname
+	@rm iso/airootfs/etc/motd
+	@cp ./resources/motd iso/airootfs/etc/motd
 	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
 
 aur:
