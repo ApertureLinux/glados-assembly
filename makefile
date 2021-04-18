@@ -38,8 +38,7 @@ isoinit:
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
 	@cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
-	@cd iso &&    										 \
-	git clone https://github.com/ApertureLinux/archinstall.git airootfs/root/archinstall-git
+	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
