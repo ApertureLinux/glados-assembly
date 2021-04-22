@@ -36,14 +36,17 @@ isoinit:
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
 	@rm iso/profiledef.sh
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
-	@cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
+	# @cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
 	@rm iso/airootfs/etc/hostname
 	@cp ./resources/hostname iso/airootfs/etc/hostname
 	@rm iso/airootfs/etc/motd
 	@cp ./resources/motd iso/airootfs/etc/motd
 	@cp ./resources/pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/pacman-glados-keyring.service
+	@mkdir -p ./iso/airootfs/etc/sddm.conf.d
+	@cp ./resource/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
+	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
 	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
 
 aur:
