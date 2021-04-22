@@ -44,7 +44,7 @@ isoinit:
 	@cp ./resources/motd iso/airootfs/etc/motd
 	@cp ./resources/pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/pacman-glados-keyring.service
 	@mkdir -p ./iso/airootfs/etc/sddm.conf.d
-	@cp ./resource/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
+	@cp ./resources/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
 	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
