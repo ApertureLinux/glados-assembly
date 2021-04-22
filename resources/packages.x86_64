@@ -5,3 +5,8 @@ glados-keyring
 aperture-neofetch
 aperture-hooks
 aperture-mirrorlist
+mesa
+xf86-video-amdgpu
+xf86-video-ati
+xf86-video-nouveau
+lib32-mesa
