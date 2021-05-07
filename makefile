@@ -7,7 +7,9 @@ ISO_DIR = iso/
 CMP=zst
 
 AUR_PKGS =  aurutils	\
-	    yay
+	    yay				\
+		ckbcomp			\
+		mkinitcpio-openswap
 
 PERCENT := %
 
