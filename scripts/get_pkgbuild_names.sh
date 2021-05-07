@@ -3,6 +3,10 @@
 PULL_PKGS=false
 CMP=zst
 
+log() {
+    : echo >&2 "$@"
+}
+
 setup_pkgs() {
     # TODO: merge glados and glados-assembly, remove this hack
 
@@ -36,7 +40,7 @@ parse_args() {
 
 contains() {
     local search=$1 ; shift
-    for val in "$@" ; do
+    for val in $* ; do
         [ "$search" = "$val" ] && return 0
     done
     return 1
@@ -68,12 +72,16 @@ get_local_deps() {
 
     while read -r pkg ; do
         if [ -f "packages/$pkg/PKGBUILD" ] ; then
+            log glados dep: $pkg
             found=0
             echo -n $MIRROR_DIR/
             get_versioned_name "packages/$pkg" | tr '\n' ' '
         elif contains "$pkg" "${AUR[@]}" ; then
+            log aur dep: $pkg
             found=0
             echo -n "aur "
+        else
+            log ignore: $pkg
         fi
     done < <(get_all_deps "$1")
     echo
@@ -100,6 +108,8 @@ main() {
         # output for make package list
         pkg=$dir/$(get_versioned_name "$dir")
         echo $pkg
+
+        log -e "\n\nfor pkg $dir:"
 
         # output to .deps file
         deps=$(get_local_deps "$dir")
