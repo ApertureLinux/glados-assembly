@@ -12,3 +12,7 @@ xf86-video-nouveau
 plasma-meta
 kde-applications
 xorg
+calamares
+grub
+os-prober
+virtualbox-guest-utils

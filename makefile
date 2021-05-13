@@ -26,7 +26,7 @@ include $(wildcard .deps)
 
 iso:
 	cd "$(ISO_DIR)" && 			\
-	sudo mkarchiso -v -w work/ -o out/ . &&	\
+	sudo mkarchiso -v -w work/ -o out/ . # &&	\
 	# sudo rm -rf "work"
 
 isoinit:
