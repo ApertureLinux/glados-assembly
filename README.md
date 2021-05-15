@@ -21,4 +21,4 @@ Most of this is done in our makefile, with various helper scripts in `/scripts`
 
 `make cleaniso` - cleans the iso working dir
 
-`make disclean` - fully cleans the project
+`make distclean` - fully cleans the project
