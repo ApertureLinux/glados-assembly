@@ -36,7 +36,6 @@ isoinit:
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
 	@rm iso/profiledef.sh
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
-	# @cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
 	@rm iso/airootfs/etc/hostname
 	@cp ./resources/hostname iso/airootfs/etc/hostname
@@ -47,7 +46,8 @@ isoinit:
 	@cp ./resources/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
-	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
+	@mkdir -p ./iso/airootfs/root/.config/autostart/
+	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/.config/autostart/calamares.desktop
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
