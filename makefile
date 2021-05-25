@@ -47,7 +47,9 @@ isoinit:
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
 	@mkdir -p ./iso/airootfs/root/.config/autostart/
-	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/.config/autostart/calamares.desktop
+	@mkdir -p ./iso/airootfs/root/Desktop
+	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/Desktop/calamares.desktop
+	@ln -s /usr/bin/calamares ./iso/airootfs/root/.config/autostart-scripts/calamares
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
