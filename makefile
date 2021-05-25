@@ -46,7 +46,7 @@ isoinit:
 	@cp ./resources/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
-	@mkdir -p ./iso/airootfs/root/.config/autostart/
+	@mkdir -p ./iso/airootfs/root/.config/autostart-scripts/
 	@mkdir -p ./iso/airootfs/root/Desktop
 	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/Desktop/calamares.desktop
 	@ln -s /usr/bin/calamares ./iso/airootfs/root/.config/autostart-scripts/calamares
