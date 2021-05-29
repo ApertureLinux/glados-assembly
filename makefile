@@ -28,25 +28,32 @@ include $(wildcard .deps)
 
 iso:
 	cd "$(ISO_DIR)" && 			\
-	sudo mkarchiso -v -w work/ -o out/ . &&	\
-	sudo rm -rf "work"
+	sudo mkarchiso -v -w work/ -o out/ . # &&	\
+	# sudo rm -rf "work"
 
 isoinit:
 	@mkdir iso
 	@cp -r ./repos/archiso/configs/releng/* ./iso
+	
 	@rm iso/pacman.conf
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
+
 	@rm iso/profiledef.sh
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
-	@cp ./resources/.zprofile ./iso/airootfs/root/.zprofile
+
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
-	@rm iso/airootfs/etc/hostname
-	@cp ./resources/hostname iso/airootfs/etc/hostname
-	@rm iso/airootfs/etc/motd
-	@cp ./resources/motd iso/airootfs/etc/motd
-	@cp ./resources/pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/pacman-glados-keyring.service
+
+	#airootfs
+	@cp -rf ./resources/airootfs/*/ ./iso/airootfs/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
-	@cp -r ./repos/archinstall ./iso/airootfs/root/archinstall-git
+	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
+	@mkdir -p ./iso/airootfs/root/.config/autostart-scripts/
+	@mkdir -p ./iso/airootfs/root/Desktop
+	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/Desktop/calamares.desktop
+	@ln -s /usr/bin/calamares ./iso/airootfs/root/.config/autostart-scripts/calamares
+
+	#efiboot
+	@cp -rf ./resources/efiboot/*/ ./iso/efiboot
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
