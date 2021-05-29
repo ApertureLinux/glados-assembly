@@ -32,24 +32,26 @@ iso:
 isoinit:
 	@mkdir iso
 	@cp -r ./repos/archiso/configs/releng/* ./iso
+	
 	@rm iso/pacman.conf
 	@cp ./resources/pacman-iso.conf ./iso/pacman.conf
+
 	@rm iso/profiledef.sh
 	@cp ./resources/profiledef.sh ./iso/profiledef.sh
+
 	@cat ./resources/packages.x86_64 >> ./iso/packages.x86_64
-	@rm iso/airootfs/etc/hostname
-	@cp ./resources/hostname iso/airootfs/etc/hostname
-	@rm iso/airootfs/etc/motd
-	@cp ./resources/motd iso/airootfs/etc/motd
-	@cp ./resources/pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/pacman-glados-keyring.service
-	@mkdir -p ./iso/airootfs/etc/sddm.conf.d
-	@cp ./resources/auto-login.conf ./iso/airootfs/etc/sddm.conf.d/
+
+	#airootfs
+	@cp -rf ./resources/airootfs/*/ ./iso/airootfs/
 	@ln -s ../pacman-glados-keyring.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/pacman-glados-keyring.service
 	@ln -s ../sddm.service ./iso/airootfs/etc/systemd/system/multi-user.target.wants/sddm.service
 	@mkdir -p ./iso/airootfs/root/.config/autostart-scripts/
 	@mkdir -p ./iso/airootfs/root/Desktop
 	@ln -s /usr/share/applications/calamares.desktop ./iso/airootfs/root/Desktop/calamares.desktop
 	@ln -s /usr/bin/calamares ./iso/airootfs/root/.config/autostart-scripts/calamares
+
+	#efiboot
+	@cp -rf ./resources/efiboot/*/ ./iso/efiboot
 
 aur:
 	@scripts/aur.sh $(AUR_PKGS)
