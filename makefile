@@ -6,10 +6,12 @@ DB_FILE = glados.db.tar.xz
 ISO_DIR = iso/
 CMP=zst
 
-AUR_PKGS =  aurutils	\
-	    yay				\
+AUR_PKGS = 	aurutils		\
+		yay			\
 		ckbcomp			\
-		mkinitcpio-openswap
+		mkinitcpio-openswap	\
+		discord-canary		\
+		visual-studio-code-bin 	\
 
 PERCENT := %
 
