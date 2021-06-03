@@ -12,6 +12,13 @@ AUR_PKGS = 	aurutils		\
 		mkinitcpio-openswap	\
 		discord-canary		\
 		visual-studio-code-bin 	\
+		python36		\
+		python37		\
+		python38		\
+		proton-ge-custom-bin	\
+		proton-ge-custom	
+
+
 
 PERCENT := %
 
