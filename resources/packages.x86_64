@@ -11,6 +11,8 @@ xf86-video-ati
 xf86-video-nouveau
 plasma-meta
 kde-applications
+aperture-kde-core
+aperture-wallpapers
 xorg
 calamares
 grub
