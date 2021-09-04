@@ -11,7 +11,12 @@ AUR_PKGS = 	aurutils		\
 		ckbcomp			\
 		mkinitcpio-openswap	\
 		discord-canary		\
-		visual-studio-code-bin
+		visual-studio-code-bin	\
+		jre			\
+		jdk			\
+		syncplay	\
+		nordvpn-bin	\
+		zoom
 
 
 
@@ -78,7 +83,7 @@ $(MIRROR_PKGS): $(MIRROR_DIR)% : $$(filter $$(PERCENT)%, $(PKGS)) | $(MIRROR_DIR
 	@ln -f $< $@
 	@repo-add -R $(MIRROR_DIR)/$(DB_FILE) $@
 
-$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_DIR) $(MIRROR_PKGS) aur
+$(MIRROR_DIR)/$(DB_FILE): $(MIRROR_PKGS) aur
 	@repo-add -R $@ $(filter-out aur, $?)
 	@rm -f $(MIRROR_DIR)/$(DB_FILE)*.sig
 
