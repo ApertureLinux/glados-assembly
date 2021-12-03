@@ -14,5 +14,5 @@ for pkg in $@; do
     tar xvf "$pkg.tar.gz"
     cd $pkg
     makepkg -s
-    cp "$pkg*.tar.zst" "$repo_location/"
+    cp "$pkg"*".tar.zst" "$repo_location/"
 done
