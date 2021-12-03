@@ -13,7 +13,6 @@ AUR_PKGS = 	aurutils		\
 		discord-canary		\
 		visual-studio-code-bin	\
 		jre			\
-		jdk			\
 		syncplay	\
 		nordvpn-bin	\
 		zoom

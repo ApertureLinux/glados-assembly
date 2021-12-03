@@ -11,11 +11,11 @@ for pkg in $@; do
     
     echo $pkg
 
-    curl -L -0"https://aur.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz"
+    curl -L -0 "https://aur.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz"
 
 
     tar xvf "$pkg.tar.gz"
     cd $pkg
-    makepkg -s -c --sign --noprogressbar --nocolor || true
+    makepkg -s -c --sign --noprogressbar --nocolor -f
     cp "$pkg"*".pkg.tar.zst" "$repo_location/"
 done
