@@ -12,7 +12,6 @@ AUR_PKGS = 	aurutils		\
 		mkinitcpio-openswap	\
 		discord-canary		\
 		visual-studio-code-bin	\
-		jre			\
 		syncplay	\
 		nordvpn-bin	\
 		zoom

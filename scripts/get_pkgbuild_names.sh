@@ -51,7 +51,9 @@ get_versioned_name() {
         cd "$1"
         PATH= source PKGBUILD
         version="${epoch}${epoch:+:}${pkgver}-${pkgrel}"
-        echo "${pkgbase:-$pkgname}-$version-${arch}.pkg.tar.${CMP}"
+        echo "${pkgbase:-$pkgname}-$version-x86_64.pkg.tar.${CMP}"
+
+        # echo "${pkgbase:-$pkgname}-$version-${arch}.pkg.tar.${CMP}"
     )
 }
 
