@@ -7,12 +7,15 @@ repo_name=glados
 
 
 for pkg in $@; do 
-    echo "foo"
     cd $package_location
+    
     echo $pkg
-    curl -L -O "https://aur.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz"
+
+    curl -L -0"https://aur.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz"
+
+
     tar xvf "$pkg.tar.gz"
     cd $pkg
-    makepkg -s
-    cp "$pkg"*".tar.zst" "$repo_location/"
+    makepkg -s -c --sign --noprogressbar --nocolor || true
+    cp "$pkg"*".pkg.tar.zst" "$repo_location/"
 done
