@@ -66,7 +66,7 @@ isoinit:
 	@cp -rf ./resources/syslinux/* ./iso/syslinux
 
 
-aur:
+aur: $(MIRROR_DIR)/$(DB_FILE)
 	@scripts/aur.sh $(AUR_PKGS)
 
 sync: $(MIRROR_DIR)/$(DB_FILE)

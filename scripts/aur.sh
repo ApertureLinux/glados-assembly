@@ -15,7 +15,8 @@ for pkg in $@; do
 
     cd $package_location 
     
-    echo $pkg
+    echo ""
+    echo "==> Updating $pkg"
 
     if [ -d "$pkg" ]; then
         (
@@ -27,6 +28,7 @@ for pkg in $@; do
 
     fi
 
+    echo "==> Building $pkg from AUR"
     cd $pkg
     makepkg -s -c --sign --noprogressbar --nocolor
     cp "$pkg"*".pkg.tar.zst" "$repo_location/"
