@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PULL_PKGS=false
 CMP=zst
@@ -52,7 +52,7 @@ get_versioned_name() {
         PATH= source PKGBUILD
         version="${epoch}${epoch:+:}${pkgver}-${pkgrel}"
         
-        if [contains "x86_64" $arch]; then
+        if contains "x86_64" ${arch[@]}; then
             echo "${pkgbase:-$pkgname}-$version-x86_64.pkg.tar.${CMP}"
         else
             echo "${pkgbase:-$pkgname}-$version-${arch}.pkg.tar.${CMP}"

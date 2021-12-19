@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 repo_location=$(dirname "$(realpath "$0")")/../glados
-package_location=$(dirname "$(realpath "$0")")/../packages
+package_location=$(dirname "$(realpath "$0")")/../aur
 repo_name=glados
 
 
 
 for pkg in $@; do 
-    cd $package_location
+    cd $package_location 
     
     echo $pkg
 
