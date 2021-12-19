@@ -6,16 +6,29 @@ repo_name=glados
 
 
 
+if [ ! -d "$package_location" ]; then
+    mkdir $package_location
+fi
+
+
 for pkg in $@; do 
+
     cd $package_location 
     
     echo $pkg
 
-    curl -L -0 "https://aur.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz"
+    if [ -d "$pkg" ]; then
+        (
+            cd "$pkg"
+            git pull -f
+        )
+    else
+        git clone "https://aur.archlinux.org/$pkg.git"
 
+    fi
 
-    tar xvf "$pkg.tar.gz"
     cd $pkg
-    makepkg -s -c --sign --noprogressbar --nocolor -f
+    makepkg -s -c --sign --noprogressbar --nocolor
     cp "$pkg"*".pkg.tar.zst" "$repo_location/"
 done
+
