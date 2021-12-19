@@ -11,6 +11,8 @@ if [ ! -d "$package_location" ]; then
 fi
 
 
+echo "==> Starting AUR Build"
+
 for pkg in $@; do 
 
     cd $package_location 
